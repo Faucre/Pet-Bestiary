@@ -1,51 +1,103 @@
 [h1]Pet Bestiary[/h1]
 
-Pet Bestiary adds a custom Bestiary-style menu for collecting, managing, and displaying multiple pets at once.
+Unlock, manage, dye, and display multiple pets from a Bestiary-style UI.
 
-Once a pet item enters your inventory, that pet is unlocked for your character. From there, you can activate it through the Pet Bestiary without relying on Terraria’s normal single pet slot.
+Pet Bestiary lets you equip multiple normal pets and light pets at once without relying on Terraria’s normal single pet slot. Once a pet item enters your inventory, that pet is permanently unlocked for your character. From there, you can activate pets, save presets, assign dyes, randomize pets, and build your collection through the Pet Bestiary.
+
+The default hotkey for opening and closing the Pet Bestiary is [b]P[/b]. You can also open it with the button next to the trash icon.
 
 [h2]Features[/h2]
 
 - Equip multiple normal pets and light pets at once
+- Pet limits increased up to 9999 per category
 - Custom Bestiary-inspired pet UI
 - Separate Normal Pet and Light Pet sections
 - Unlock pets by obtaining their summon item
 - Vanilla pet unlock hints
 - Modded pet detection where possible
+- Search bar for finding pets quickly
+- Filter pets by origin, such as Vanilla, Calamity Mod, and other detected mods
+- Collection progress bar at the bottom of the Bestiary
+- Hovering over the progress bar shows whether Progression Mode is enabled
 - Pet presets
 - Equip All and Unequip All buttons
 - Lock pets to protect them from bulk actions
 - Optional progression mode for unlocking more pet slots over time
-- Per-pet dye support for active in-world pets: Each pet can have its own assigned dye. Dye items are not consumed, moved, stored, or deleted. The mod only saves the dye effect assigned to that pet.
+- Visual pet spacing with a spacing preference slider
+- Random pet button that equips a random unlocked pet that is not currently equipped
+- Manual close button in the top-right corner
+- General UI cleanup and polish
 - Debug tools for testing and troubleshooting
+
+[h2]Prismatic Palette[/h2]
+
+Pet Bestiary now includes the [b]Prismatic Palette[/b], a dedicated dye selector for pets.
+
+Dyeing pets no longer requires owning multiple copies of a dye. Once you collect a dye, it is unlocked in the Prismatic Palette. Clicking the dye option on a pet opens the Prismatic Palette, where you can reuse any unlocked dye as much as you want, on as many pets as you want.
+
+Prismatic Palette features:
+
+- Unlock dyes by collecting them
+- Assign dyes to individual pets
+- Search bar for finding dyes quickly
+- Random dye button
+- Dye All button for currently equipped pets
+- Clear All Dyes button for currently equipped pets
+- Dye items are not consumed, moved, stored, or deleted
 
 [h2]Mod Compatibility[/h2]
 
-Pet Bestiary attempts to detect pets from other mods automatically. Some modded pets may show ??? for unlock conditions if the source cannot be determined.
+Pet Bestiary attempts to detect pets from other mods automatically. If a modded pet can be identified, it should appear in the Bestiary.
 
-[h2]Known Limitations[/h2]
+Some modded pets may show ??? for unlock conditions if the source cannot be determined automatically. Some custom-drawn modded pets may also have limited dye or preview support.
 
-- The pet preview may not always show assigned dye yet.
-- Some custom-drawn modded pets may not support dye perfectly.
-- Pets may overlap because spacing behavior is not implemented yet.
-- Some modded unlock conditions may be unknown.
+[h2]Recent Changes[/h2]
 
-[h2]Planned Features[/h2]
+- Added Prismatic Palette
+- Added dye unlocks
+- Added Dye All and Clear All Dyes for currently equipped pets
+- Added search bars to both the Pet Bestiary and Prismatic Palette
+- Added pet origin filtering
+- Added visual pet spacing with a spacing preference slider
+- Increased pet limits to 9999 for each category
+- Added a manual Pet Bestiary toggle button next to the trash icon
+- Added random pet button
+- Added random dye button
+- Added top-right close button
+- Improved UI layout and general readability
 
-- Dyed pet preview support
-- Visual pet spacing
-- Optional duplicate pets
-- Better modded pet compatibility
-- More filtering/search tools
-- More preset and progression polish
+[h2]Bug Fixes[/h2]
+
+- Fixed an issue with Resplendent Dessert that kept it from summoning both pets at once. This has a targeted fix for now; a broader fix for similar pets may come later.
+- The preview panel now reflects assigned dyes.
+- Preview animations for many pets have been corrected.
+- Fixed dyed pets using incorrect animations.
+- Fixed an issue where pet dyes broke after the first 10 dyed pets due to vanilla draw behavior limits.
+- Fixed a bug that played the summon pet sound every tick when equipping a pet into a normal pet slot.
+- Fixed vanilla pet unlock conditions.
+- Added tentative multiplayer sync fixes. This has been tested, but more multiplayer testing is still needed.
+
+[h2]Known Bugs / Limitations[/h2]
+
+- Some custom-drawn modded pets can disable dyes for the rest of your pets.
+- Currently known pet with this behavior: Thief’s Dime from Calamity Mod.
+- Some pets cannot be displayed fully or at all in the preview, such as Exo Gemstone and Miniature Elemental Heart from Calamity’s Vanities.
+- Some modded pet unlock conditions may be unknown and display as ???.
+- Modded pet support depends on how each mod implements its pets.
 
 [h2]Safety[/h2]
 
-Pet Bestiary does not use real extra pet equipment slots and does not store your pet or dye items. Everything is handled through a virtual pet system to avoid item loss. When I was originally making the more pet slots mod and trying to add the individual dye function, the custom dye slot would just eat your dye sometimes. I don't wish to make people lose their dyes so I've avoided that.
+Pet Bestiary does not use real extra pet equipment slots and does not store your pet or dye items. Everything is handled through a virtual pet system to avoid item loss.
+
+This was a major design goal. When I was originally working on More Pet Slots and experimenting with individual dye slots, the custom dye slot could sometimes eat dyes. I do not want anyone losing items, so Pet Bestiary avoids storing real pet or dye items entirely.
 
 [h2]Notes[/h2]
 
-This is a complete rebuild of my previous mod 'More Pet Slots' https://steamcommunity.com/sharedfiles/filedetails/?id=3489856943
+This is a complete rebuild of my previous mod, More Pet Slots:
+https://steamcommunity.com/sharedfiles/filedetails/?id=3489856943
 
+This mod is intended for Terraria/tModLoader 1.4.4.
 
-This mod is intended for 1.4.4 Compatibility with 1.4.5 will be released when tModloader is updated. Sorry for the inconvenience.
+[quote=tModLoader PetBestiary]
+Developed By Luminous Blaze
+[/quote]
