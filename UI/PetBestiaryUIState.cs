@@ -24,7 +24,7 @@ public sealed class PetBestiaryUIState : UIState
 {
     private const float PanelWidth = 920f;
     private const float PanelHeight = 560f;
-    private const float PageRowTop = 14f;
+    private const float PageRowTop = 2f;
     private const float TabRowTop = 14f;
     private const float FilterRowTop = 52f;
     private const float ContentTop = 96f;
@@ -119,9 +119,9 @@ public sealed class PetBestiaryUIState : UIState
 
         BuildPageNavigation();
         pageText = new UIText(string.Empty, 0.82f);
-        pageText.Left.Set(116f, 0f);
-        pageText.Top.Set(7f, 0f);
-        pageText.Width.Set(126f, 0f);
+        pageText.Left.Set(12f, 0f);
+        pageText.Top.Set(0f, 0f);
+        pageText.Width.Set(82f, 0f);
         pageRow.Append(pageText);
 
         progressBar = new BestiaryProgressBar();
@@ -231,7 +231,7 @@ public sealed class PetBestiaryUIState : UIState
             tabs.Add(CreateButton("Debug", 88f, () => SelectTab(BestiaryTab.Debug)));
         }
 
-        AddCenteredButtons(tabRow, tabs, 8f);
+        AddButtonsFromLeft(tabRow, 322f, tabs, 8f);
 
         filterRow.RemoveAllChildren();
         if (IsPetTab())
@@ -275,13 +275,22 @@ public sealed class PetBestiaryUIState : UIState
     {
         pageRow.RemoveAllChildren();
 
-        UITextPanel<string> previous = CreateButton("<", 38f, () => ChangePage(-1), 0.9f, false, 30f);
+        UITextPanel<string> previous = CreateButton("<", 32f, () => ChangePage(-1), 0.78f, false, 26f);
         previous.Left.Set(16f, 0f);
+        previous.Top.Set(18f, 0f);
         pageRow.Append(previous);
 
-        UITextPanel<string> next = CreateButton(">", 38f, () => ChangePage(1), 0.9f, false, 30f);
-        next.Left.Set(62f, 0f);
+        UITextPanel<string> next = CreateButton(">", 32f, () => ChangePage(1), 0.78f, false, 26f);
+        next.Left.Set(54f, 0f);
+        next.Top.Set(18f, 0f);
         pageRow.Append(next);
+
+        DiceButton randomPet = new(RandomPetFromCurrentBestiary, "Random pet");
+        randomPet.Left.Set(96f, 0f);
+        randomPet.Top.Set(18f, 0f);
+        randomPet.Width.Set(28f, 0f);
+        randomPet.Height.Set(28f, 0f);
+        pageRow.Append(randomPet);
     }
 
     private static void AddCenteredButtons(UIElement row, IReadOnlyList<UITextPanel<string>> buttons, float gap)
@@ -417,6 +426,45 @@ public sealed class PetBestiaryUIState : UIState
     {
         int totalPages = CurrentTotalPages();
         page = Math.Clamp(page + direction, 0, totalPages - 1);
+    }
+
+    private void RandomPetFromCurrentBestiary()
+    {
+        if (!IsPetTab())
+        {
+            Main.NewText("Open a pet tab before using random pet.", 255, 230, 130);
+            return;
+        }
+
+        PetBestiaryPlayer player = Main.LocalPlayer.GetModPlayer<PetBestiaryPlayer>();
+        List<PetDefinition> candidates = CurrentPets()
+            .Where(pet => player.IsUnlocked(pet.Key)
+                && !player.IsActive(pet.Key)
+                && !player.IsPetSlotLimitReached(pet.Category))
+            .ToList();
+
+        if (candidates.Count <= 0)
+        {
+            Main.NewText("No unlocked inactive pet can be activated from this tab.", 255, 230, 130);
+            return;
+        }
+
+        PetDefinition selected = candidates[Main.rand.Next(candidates.Count)];
+        if (!player.TryTogglePet(selected.Key))
+        {
+            Main.NewText("Could not activate a random pet.", 255, 230, 130);
+            return;
+        }
+
+        selectedPetKey = selected.Key;
+        IReadOnlyList<PetDefinition> pets = CurrentPets();
+        int selectedIndex = pets.ToList().FindIndex(pet => pet.Key == selected.Key);
+        if (selectedIndex >= 0)
+        {
+            page = selectedIndex / PetsPerPage;
+        }
+
+        Main.NewText($"Activated {selected.DisplayName}.", 180, 255, 180);
     }
 
     private void Refresh()
@@ -815,6 +863,58 @@ internal enum PetFilter
     Unlocked,
     Locked,
     Active
+}
+
+internal sealed class DiceButton : UIElement
+{
+    private readonly string tooltip;
+
+    public DiceButton(Action action, string tooltip)
+    {
+        this.tooltip = tooltip;
+        OnLeftClick += (_, _) =>
+        {
+            action();
+            SoundEngine.PlaySound(SoundID.MenuTick);
+        };
+    }
+
+    protected override void DrawSelf(SpriteBatch spriteBatch)
+    {
+        Rectangle bounds = GetDimensions().ToRectangle();
+        Color border = IsMouseHovering ? new Color(255, 226, 90) : Color.Black;
+        Color fill = IsMouseHovering ? new Color(88, 112, 190) : new Color(58, 73, 145);
+
+        spriteBatch.Draw(TextureAssets.MagicPixel.Value, bounds, border);
+        Rectangle inner = new(bounds.X + 3, bounds.Y + 3, bounds.Width - 6, bounds.Height - 6);
+        spriteBatch.Draw(TextureAssets.MagicPixel.Value, inner, fill);
+
+        Rectangle dieShadow = new(bounds.X + 8, bounds.Y + 8, 16, 16);
+        spriteBatch.Draw(TextureAssets.MagicPixel.Value, dieShadow, Color.Black * 0.35f);
+
+        Rectangle die = new(bounds.X + 6, bounds.Y + 6, 16, 16);
+        spriteBatch.Draw(TextureAssets.MagicPixel.Value, die, Color.White);
+        spriteBatch.Draw(TextureAssets.MagicPixel.Value, new Rectangle(die.X, die.Y, die.Width, 2), new Color(210, 220, 255));
+        spriteBatch.Draw(TextureAssets.MagicPixel.Value, new Rectangle(die.X, die.Bottom - 2, die.Width, 2), new Color(170, 180, 220));
+        spriteBatch.Draw(TextureAssets.MagicPixel.Value, new Rectangle(die.X, die.Y, 2, die.Height), new Color(210, 220, 255));
+        spriteBatch.Draw(TextureAssets.MagicPixel.Value, new Rectangle(die.Right - 2, die.Y, 2, die.Height), new Color(170, 180, 220));
+
+        DrawPip(spriteBatch, die.X + 4, die.Y + 4);
+        DrawPip(spriteBatch, die.X + die.Width - 7, die.Y + 4);
+        DrawPip(spriteBatch, die.X + die.Width / 2 - 1, die.Y + die.Height / 2 - 1);
+        DrawPip(spriteBatch, die.X + 4, die.Y + die.Height - 7);
+        DrawPip(spriteBatch, die.X + die.Width - 7, die.Y + die.Height - 7);
+
+        if (IsMouseHovering)
+        {
+            Main.instance.MouseText(tooltip);
+        }
+    }
+
+    private static void DrawPip(SpriteBatch spriteBatch, int x, int y)
+    {
+        spriteBatch.Draw(TextureAssets.MagicPixel.Value, new Rectangle(x, y, 3, 3), new Color(33, 42, 84));
+    }
 }
 
 internal sealed class PetBestiaryPanel : UIPanel
@@ -1617,6 +1717,13 @@ internal sealed class DyePalettePanel : UIPanel
             cells.Add(cell);
         }
 
+        DiceButton randomDye = new(SelectRandomDye, "Random dye");
+        randomDye.Left.Set(70f, 0f);
+        randomDye.Top.Set(312f, 0f);
+        randomDye.Width.Set(28f, 0f);
+        randomDye.Height.Set(28f, 0f);
+        Append(randomDye);
+
         UITextPanel<string> previous = new("<", 0.82f);
         previous.Left.Set(122f, 0f);
         previous.Top.Set(312f, 0f);
@@ -1635,7 +1742,7 @@ internal sealed class DyePalettePanel : UIPanel
 
         pageText = new UIText("0-0 (0)", 0.72f);
         pageText.Left.Set(178f, 0f);
-        pageText.Top.Set(318f, 0f);
+        pageText.Top.Set(321f, 0f);
         pageText.Width.Set(96f, 0f);
         Append(pageText);
     }
@@ -1775,6 +1882,17 @@ internal sealed class DyePalettePanel : UIPanel
 
         selectDye(dyeData);
         SoundEngine.PlaySound(SoundID.MenuTick);
+    }
+
+    private void SelectRandomDye()
+    {
+        if (filteredDyes.Count <= 0)
+        {
+            Main.NewText("No unlocked dyes are available for random selection.", 255, 230, 130);
+            return;
+        }
+
+        SelectDye(filteredDyes[Main.rand.Next(filteredDyes.Count)]);
     }
 }
 
