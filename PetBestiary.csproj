@@ -1,0 +1,9 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <LangVersion>latest</LangVersion>
+  </PropertyGroup>
+
+  <Import Project="..\tModLoader.targets" Condition="Exists('..\tModLoader.targets')" />
+  <Import Project="$(tMLModTargets)" Condition="'$(tMLModTargets)' != '' And Exists('$(tMLModTargets)')" />
+</Project>

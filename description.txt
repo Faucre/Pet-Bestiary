@@ -1,0 +1,51 @@
+[h1]Pet Bestiary[/h1]
+
+Pet Bestiary adds a custom Bestiary-style menu for collecting, managing, and displaying multiple pets at once.
+
+Once a pet item enters your inventory, that pet is unlocked for your character. From there, you can activate it through the Pet Bestiary without relying on Terraria’s normal single pet slot.
+
+[h2]Features[/h2]
+
+- Equip multiple normal pets and light pets at once
+- Custom Bestiary-inspired pet UI
+- Separate Normal Pet and Light Pet sections
+- Unlock pets by obtaining their summon item
+- Vanilla pet unlock hints
+- Modded pet detection where possible
+- Pet presets
+- Equip All and Unequip All buttons
+- Lock pets to protect them from bulk actions
+- Optional progression mode for unlocking more pet slots over time
+- Per-pet dye support for active in-world pets: Each pet can have its own assigned dye. Dye items are not consumed, moved, stored, or deleted. The mod only saves the dye effect assigned to that pet.
+- Debug tools for testing and troubleshooting
+
+[h2]Mod Compatibility[/h2]
+
+Pet Bestiary attempts to detect pets from other mods automatically. Some modded pets may show ??? for unlock conditions if the source cannot be determined.
+
+[h2]Known Limitations[/h2]
+
+- The pet preview may not always show assigned dye yet.
+- Some custom-drawn modded pets may not support dye perfectly.
+- Pets may overlap because spacing behavior is not implemented yet.
+- Some modded unlock conditions may be unknown.
+
+[h2]Planned Features[/h2]
+
+- Dyed pet preview support
+- Visual pet spacing
+- Optional duplicate pets
+- Better modded pet compatibility
+- More filtering/search tools
+- More preset and progression polish
+
+[h2]Safety[/h2]
+
+Pet Bestiary does not use real extra pet equipment slots and does not store your pet or dye items. Everything is handled through a virtual pet system to avoid item loss. When I was originally making the more pet slots mod and trying to add the individual dye function, the custom dye slot would just eat your dye sometimes. I don't wish to make people lose their dyes so I've avoided that.
+
+[h2]Notes[/h2]
+
+This is a complete rebuild of my previous mod 'More Pet Slots' https://steamcommunity.com/sharedfiles/filedetails/?id=3489856943
+
+
+This mod is intended for 1.4.4 Compatibility with 1.4.5 will be released when tModloader is updated. Sorry for the inconvenience.
