@@ -39,3 +39,4 @@ Unlocked Prismatic Palette dyes are also virtual unlock records; the mod does no
 ## Porting notes
 
 - tModLoader 1.4.4 still includes Tartar Sauce and the Mini Minotaur pet. Terraria 1.4.5 replaces them with the Beguiling Lyre and Faun, so the vanilla hint table and any saved-key migration should map `Terraria/TartarSauce` to the 1.4.5 item when stable tModLoader support exists.
+.
